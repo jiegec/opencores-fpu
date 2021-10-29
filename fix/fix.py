@@ -12,7 +12,7 @@ for file in glob.glob('../original/verilog/*.v'):
 					line = line.replace('co', 'co_d')
 
 				# fpu.v: missing fasu_op
-				if 'fasu_op_r1, fasu_op_r2' in line:
+				if 'nan_sign_d, result_zero_sign_d' in line:
 					w.write('wire\t\tfasu_op;\n')
 
 				# casex -> casez

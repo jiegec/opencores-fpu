@@ -1,5 +1,5 @@
---- ../original/verilog/fpu.v	2021-09-08 15:02:12.000000000 +0800
-+++ fpu.v	2021-10-29 08:27:05.000000000 +0800
+--- ../original/verilog/fpu.v	2021-10-29 10:52:43.645416586 +0800
++++ fpu.v	2021-10-29 10:52:51.793279149 +0800
 @@ -89,7 +89,7 @@
  wire	[7:0]	exp_fasu;		// Exponent output from EQU block
  reg	[7:0]	exp_r;			// Exponent output (registerd)
@@ -46,7 +46,15 @@
  
  ////////////////////////////////////////////////////////////////////////
  //
-@@ -190,7 +190,7 @@
+@@ -159,6 +159,7 @@
+ // - determine actual operation to perform (add or sub)
+ //
+ 
++wire		fasu_op;
+ wire		nan_sign_d, result_zero_sign_d;
+ reg		sign_fasu_r;
+ wire	[7:0]	exp_mul;
+@@ -190,7 +191,7 @@
  	);
  
  always @(posedge clk)
@@ -55,7 +63,7 @@
  
  pre_norm_fmul u2(
  		.clk(clk),
-@@ -208,16 +208,16 @@
+@@ -208,16 +209,16 @@
  
  
  always @(posedge clk)
@@ -76,7 +84,7 @@
  
  
  ////////////////////////////////////////////////////////////////////////
-@@ -233,7 +233,7 @@
+@@ -233,7 +234,7 @@
  	.co(co_d) );			// Carry Output
  
  always @(posedge clk)
@@ -85,7 +93,7 @@
  
  ////////////////////////////////////////////////////////////////////////
  //
-@@ -254,7 +254,7 @@
+@@ -254,7 +255,7 @@
  reg	[4:0]	div_opa_ldz_d, div_opa_ldz_r1, div_opa_ldz_r2;
  
  always @(fracta_mul)
@@ -94,7 +102,7 @@
  	   23'b1??????????????????????: div_opa_ldz_d = 1;
  	   23'b01?????????????????????: div_opa_ldz_d = 2;
  	   23'b001????????????????????: div_opa_ldz_d = 3;
-@@ -288,10 +288,10 @@
+@@ -288,10 +289,10 @@
  assign remainder_00 = !(|remainder);
  
  always @(posedge clk)
@@ -107,7 +115,7 @@
  
  
  ////////////////////////////////////////////////////////////////////////
-@@ -310,19 +310,19 @@
+@@ -310,19 +311,19 @@
  
  always @(posedge clk)			// Exponent must be once cycle delayed
  	case(fpu_op_r2)
@@ -133,7 +141,7 @@
  			(sign_d ?  1-{24'h00, (|opa_r1[30:23]), opa_r1[22:0]}-1 : {24'h0, (|opa_r1[30:23]), opa_r1[22:0]}) :
  			(sign_d ? 1 - {opa_r1, 17'h01} : {opa_r1, 17'h0});
  
-@@ -336,15 +336,15 @@
+@@ -336,15 +337,15 @@
  
  
  always @(posedge clk)
@@ -152,14 +160,6 @@
  
  post_norm u4(.clk(clk),			// System Clock
  	.fpu_op(fpu_op_r3),		// Floating Point Operation
-@@ -370,6 +370,7 @@
- //
- // FPU Outputs
- //
-+wire		fasu_op;
- reg		fasu_op_r1, fasu_op_r2;
- wire	[30:0]	out_fixed;
- wire		output_zero_fasu;
 @@ -391,13 +392,13 @@
  
  
