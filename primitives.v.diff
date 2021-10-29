@@ -1,0 +1,36 @@
+--- ../original/verilog/primitives.v	2021-09-08 15:02:12.000000000 +0800
++++ primitives.v	2021-10-29 08:27:05.000000000 +0800
+@@ -66,10 +66,10 @@
+ reg	[47:0]	prod1, prod;
+ 
+ always @(posedge clk)
+-	prod1 <= #1 opa * opb;
++	prod1 <= opa * opb;
+ 
+ always @(posedge clk)
+-	prod <= #1 prod1;
++	prod <= prod1;
+ 
+ endmodule
+ 
+@@ -87,16 +87,16 @@
+ reg	[49:0]	quo, rem, quo1, remainder;
+ 
+ always @(posedge clk)
+-	quo1 <= #1 opa / opb;
++	quo1 <= opa / opb;
+ 
+ always @(posedge clk)
+-	quo <= #1 quo1;
++	quo <= quo1;
+ 
+ always @(posedge clk)
+-	remainder <= #1 opa % opb;
++	remainder <= opa % opb;
+ 
+ always @(posedge clk)
+-	rem <= #1 remainder;
++	rem <= remainder;
+ 
+ endmodule
+ 

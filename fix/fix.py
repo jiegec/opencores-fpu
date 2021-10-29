@@ -27,3 +27,4 @@ for file in glob.glob('../original/verilog/*.v'):
 					w.write(line)
 				if 'synopsys translate_on' in line:
 					write = True
+	os.system(f'diff -u {file} {name} > ../{name}.diff')
